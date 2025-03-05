@@ -1,0 +1,20 @@
+version: "3"
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: thisissandbox
+      MYSQL_DATABASE: sandbox
+      TZ: Asia/Tokyo
+    volumes:
+      - ./laravel/docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+  nginx:
+    build: ./laravel/docker/nginx
+    ports:
+      - 8888:80
+    depends_on:
+      - laravel
+  laravel:
+    build: ./laravel/docker/php
+    volumes:
+      - ./laravel:/var/www/html/
